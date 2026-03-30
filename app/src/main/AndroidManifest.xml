@@ -2,12 +2,8 @@
     package="com.panel">
 
     <application
-        android:allowBackup="true"
-        android:label="panel-BrayanOFC"
+        android:label="MiPanelApp"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
-
-        <activity android:name=".DashboardActivity"/>
-        <activity android:name=".LoginActivity"/>
 
         <activity android:name=".MainActivity">
             <intent-filter>

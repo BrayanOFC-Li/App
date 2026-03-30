@@ -19,16 +19,17 @@ jobs:
       - uses: android-actions/setup-android@v3
 
       - run: yes | sdkmanager --licenses
-
       - run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
+      # Genera wrapper consistente con el proyecto
       - run: gradle wrapper
 
       - run: chmod +x gradlew
 
-      - run: ./gradlew assembleDebug --stacktrace
+      - name: Build
+        run: ./gradlew assembleDebug --stacktrace
 
       - uses: actions/upload-artifact@v4
         with:
-          name: app
+          name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk

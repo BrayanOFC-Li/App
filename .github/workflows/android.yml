@@ -1,4 +1,4 @@
-name: MiPanelApp APK Build
+name: Build APK
 
 on:
   push:
@@ -9,41 +9,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v3
 
-      - name: Accept licenses
-        run: yes | sdkmanager --licenses
+      - run: yes | sdkmanager --licenses
 
-      - name: Install SDK
-        run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+      - run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
-      # 🔥 VERIFICAR ESTRUCTURA (MUY IMPORTANTE)
-      - name: Mostrar estructura del proyecto
-        run: ls -R
+      - run: gradle wrapper
 
-      # 🔥 CREAR WRAPPER BIEN
-      - name: Crear Gradle Wrapper
-        run: gradle wrapper
+      - run: chmod +x gradlew
 
-      - name: Dar permisos a gradlew
-        run: chmod +x gradlew
+      - run: ./gradlew assembleDebug --stacktrace
 
-      # 🔥 BUILD CON DEBUG REAL
-      - name: Build APK (ULTRA DEBUG)
-        run: ./gradlew assembleDebug --stacktrace --info --debug --warning-mode all
-
-      - name: Subir APK
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: MiPanelApp-APK
+          name: app
           path: app/build/outputs/apk/debug/app-debug.apk

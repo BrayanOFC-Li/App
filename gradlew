@@ -1,16 +1,20 @@
 #!/usr/bin/env sh
 
-#
-# Gradle Wrapper
-#
-# `gradlew` is a thin shell script that delegates to Gradle's native executables.
-# It allows you to run Gradle without requiring the user to separately install it
-# on their machine.
+# Gradle wrapper script that automatically downloads the Gradle distribution.
 
-echo "Executing Gradle wrapper..."
+set -e
 
-# Set the GRADLE_HOME variable to the location of the Gradle installation.
-GRADLE_HOME=`dirname "$0"`/gradle
+GRADLE_VERSION=7.4.2
+GRADLE_FILE=gradle-${GRADLE_VERSION}-bin.zip
+GRADLE_URL=https://services.gradle.org/distributions/$GRADLE_FILE
 
-# Call the Gradle wrapper script located at the specified location.
-exec "$GRADLE_HOME/bin/gradle" "$@"
+if [ ! -f "gradle/wrapper/gradle-wrapper.jar" ]; then
+    echo "Downloading Gradle Wrapper..."
+    mkdir -p gradle/wrapper
+    curl -L -o "gradle/wrapper/$GRADLE_FILE" "$GRADLE_URL"
+    echo "Unzipping Gradle..."
+    unzip -q "gradle/wrapper/$GRADLE_FILE" -d gradle/wrapper
+    echo "Gradle downloaded and unzipped."
+fi
+
+exec java -jar gradle/wrapper/gradle-wrapper.jar "$@"

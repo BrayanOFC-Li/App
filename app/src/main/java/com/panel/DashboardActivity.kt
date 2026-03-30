@@ -18,7 +18,7 @@ class DashboardActivity : AppCompatActivity() {
         btn.setOnClickListener {
             val client = OkHttpClient()
             val request = Request.Builder()
-                .url("https://api.tuservidor.com/status")
+                .url("https://api.brayanofc.shop/status")
                 .build()
 
             client.newCall(request).enqueue(object : Callback {

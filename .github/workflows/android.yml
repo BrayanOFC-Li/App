@@ -18,6 +18,16 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Instalar Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Aceptar licencias
+        run: yes | sdkmanager --licenses
+
+      - name: Instalar componentes SDK
+        run: |
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+
       - name: Instalar Gradle
         run: sudo apt-get install gradle -y
 
